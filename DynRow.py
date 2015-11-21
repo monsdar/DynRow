@@ -8,7 +8,12 @@ from Boats.BoatConcept2 import BoatConcept2
 from Boats.BoatBoomerang import BoatBoomerang
 from Boats.BoatGhost import BoatGhost
 from Logic.Playground import Playground
-from PyRow.ErgStats import ErgStats
+
+# get erg data from either PyRow or pyerg
+if not dynrow_args.args.pyerg:
+    from PyRow.ErgStats import ErgStats
+else:
+    from pyerg_adapter.ErgStats import ErgStats
 
 
 DELTAT = 16  # run with ~60FPS
