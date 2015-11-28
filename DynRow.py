@@ -9,6 +9,7 @@ from UI.PyGameUi import PyGameUi
 from Boats.BoatConcept2 import BoatConcept2
 from Boats.BoatBoomerang import BoatBoomerang
 from Boats.BoatGhost import BoatGhost
+from Boats.BoatConstant import BoatConstant
 from Logic.Playground import Playground
 
 
@@ -58,8 +59,9 @@ def main():
     playground.setPlayerBoat(player)
 
     #init the AI boats
-    playground.addBoat(BoatBoomerang("Pacer", 130, 20, 20))
-    playground.addBoat(BoatBoomerang("Other Pacer", 129, 22, 20))
+    playground.addBoat(BoatBoomerang("Pacer", 130, 24, 50, 4))
+    playground.addBoat(BoatBoomerang("Other Pacer", 129, 25, 2))
+    playground.addBoat(BoatConstant("Steady", 129, 24))
 
     if not newestGhost == "":
         playground.addBoat(BoatGhost("Ghost", newestGhost))
