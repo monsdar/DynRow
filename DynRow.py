@@ -72,7 +72,7 @@ def main():
     ui.setCycleTime(DELTAT)
     ui.run()
 
-log_handler = logbook.StreamHandler(sys.stdout)
+log_handler = logbook.StreamHandler(sys.stdout, level=dynrow_args.args.loglevel)
 if __name__ == "__main__":
     with log_handler.applicationbound():
         main()
