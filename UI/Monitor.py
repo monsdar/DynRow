@@ -4,7 +4,7 @@ import pygame
 import Colors
 import Fonts
 
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
 from Logic.Boat import Boat
 
 class Monitor:

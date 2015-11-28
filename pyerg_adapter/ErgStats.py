@@ -1,6 +1,8 @@
-
-
 import time, sys
+
+import logbook
+
+log=logbook.Logger("ErgStats")
 
 try:
     import pyerg
@@ -40,9 +42,9 @@ class ErgStats(object):
 
             ErgStats.erg = pyerg.Erg(0)
             ErgStats.isConnected = True
-            print "Connected to erg"
+            log.debug("Connected to erg")
         except NameError:
-            print "Error initing the Concept2, pyerg not available"
+            log.error("Error initing the Concept2, pyerg not available")
 
     @staticmethod
     def isWorkoutActive():
@@ -55,6 +57,7 @@ class ErgStats(object):
 
     @staticmethod
     def resetStatistics():
+        log.debug("resetStatistics()")
         ErgStats.distance = 0.0
         ErgStats.spm = 0
         ErgStats.pace = 0.0
@@ -70,9 +73,11 @@ class ErgStats(object):
 
     @staticmethod
     def update():
+        log.debug("update() ErgStats.isConnected=%s"%ErgStats.isConnected)
         if ErgStats.isConnected:
             # Get the distance from the Concept2 ergo. Do nothing if errors occur
             try:
+                log.debug("updating from ErgStats.erg....")
                 ErgStats.distance = ErgStats.erg.getDistanceRowedSoFar()
                 ErgStats.spm = ErgStats.erg.getCadence()
                 ErgStats.pace = ErgStats.erg.getPaceInSecondsPer500()
@@ -81,26 +86,33 @@ class ErgStats(object):
                 ErgStats.calories = ErgStats.erg.getAccumulatedCalories()
                 ErgStats.heartrate = ErgStats.erg.getHeartRate()
                 ErgStats.time = ErgStats.erg.getSecondsIntoThePiece()
+                log.debug("ErgStats.erg.getSecondsIntoThePiece():%s"%ErgStats.erg.getSecondsIntoThePiece())
             except AttributeError as e:
-                print "Error receiving monitor status", e
+                log.error("Error receiving monitor status: %s"%e)
 
             # calc the average pace
             # init the value at the first time we're in here
             if ErgStats.avgPace <= 0.000001:
+                log.debug("ErgStats avgPAce was 0 so setting it to current pace")
                 ErgStats.avgPace = ErgStats.pace
 
             # just update the average if the time has changed
+            log.debug("ErgStats.time:%s  ErgStats.prevTime:%s  diff=%s if > 0.1 will update"%(ErgStats.time, ErgStats.prevTime, ErgStats.time-ErgStats.prevTime))
             if ErgStats.time - ErgStats.prevTime > 0.01:  # check if some time has passed
                 ErgStats.avgPace = ((ErgStats.avgPace * ErgStats.numQueries) + ErgStats.pace) / (ErgStats.numQueries + 1)
                 ErgStats.numQueries += 1
+                log.debug("updated ErgStats.avgPace=%s ErgStats.numQueries=%s"%(ErgStats.avgPace, ErgStats.numQueries))
 
             # set the prevTime to be able to compare it next cycle
+            log.debug("setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue")
             ErgStats.prevTime = ErgStats.time
+
 
         else:
             # TODO: This is just testing code which activates if no erg is available
             # assuming stable 62.5 FPS
             # NOTE: The following plays the simulation at higher speed for testing purposes
+            log.debug("no erg available so testing")
             speed = 10.0
             ErgStats.distance += 0.0591715976331361 * speed
             ErgStats.time += 0.016 * speed

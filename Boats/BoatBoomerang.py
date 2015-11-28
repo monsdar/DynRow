@@ -1,6 +1,7 @@
 import math
 from Logic.Boat import Boat
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
+
 
 class BoatBoomerang(Boat):
     def __init__(self, name, pace=150, spm=20, boomerDistance=50, distance=0):

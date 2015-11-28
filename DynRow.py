@@ -1,7 +1,9 @@
 
 import glob
-import os
+import os, sys
 import dynrow_args
+
+import logbook
 
 from UI.PyGameUi import PyGameUi
 from Boats.BoatConcept2 import BoatConcept2
@@ -9,12 +11,10 @@ from Boats.BoatBoomerang import BoatBoomerang
 from Boats.BoatGhost import BoatGhost
 from Logic.Playground import Playground
 
-# get erg data from either PyRow or pyerg
-if not dynrow_args.args.pyerg:
-    from PyRow.ErgStats import ErgStats
-else:
-    from pyerg_adapter.ErgStats import ErgStats
 
+from ErgStatsFactory import ErgStats
+
+log = logbook.Logger("DynRow")
 
 DELTAT = 16  # run with ~60FPS
 
@@ -33,13 +33,16 @@ ui = PyGameUi() # the UI which will display the playground on a graphical interf
 def gameLoop():
     #check if the workout is active
     isWorkoutActive = ErgStats.isWorkoutActive()
+    log.debug("gameloop() isWorkoutActive=%s"%isWorkoutActive)
     if not isWorkoutActive:
         ErgStats.resetStatistics()
         playground.reset()
     else:
         #update the ergometer data
+        log.debug("gameloop about to call ErgStats.update")
         ErgStats.update()
 
+    log.debug("about to playground.update(%s)"%ErgStats.time)
     playground.update(ErgStats.time)
     ui.update(playground)
 
@@ -55,8 +58,8 @@ def main():
     playground.setPlayerBoat(player)
 
     #init the AI boats
-    playground.addBoat(BoatBoomerang("Armin", 130, 20, 20))
-    playground.addBoat(BoatBoomerang("Bahne", 135, 22, 20))
+    playground.addBoat(BoatBoomerang("Pacer", 130, 20, 20))
+    playground.addBoat(BoatBoomerang("Other Pacer", 129, 22, 20))
 
     if not newestGhost == "":
         playground.addBoat(BoatGhost("Ghost", newestGhost))
@@ -69,6 +72,8 @@ def main():
     ui.setCycleTime(DELTAT)
     ui.run()
 
+log_handler = logbook.StreamHandler(sys.stdout)
 if __name__ == "__main__":
-    main()
+    with log_handler.applicationbound():
+        main()
 

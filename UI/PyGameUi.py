@@ -6,7 +6,8 @@ pygame.init() #is it a good place to init pygame here?
 import Colors
 import Fonts
 
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
+
 from UI.Monitor import Monitor
 from UI.MessageBox import MessageBox
 

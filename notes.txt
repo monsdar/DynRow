@@ -1,0 +1,42 @@
+[2015-11-28 04:25:26.792000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:26.794000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:26.803000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:26.805000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:26.806000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:26.809000] DEBUG: ErgStats: updating from ErgStats.erg....
+[2015-11-28 04:25:26.900000] DEBUG: ErgStats: ErgStats.time:0  ErgStats.prevTime:0  diff=0 if > 0.1 will update
+[2015-11-28 04:25:26.902000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:26.904000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:26.914000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:26.915000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:26.917000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:26.918000] DEBUG: ErgStats: updating from ErgStats.erg....
+[2015-11-28 04:25:27.016000] DEBUG: ErgStats: ErgStats.time:0  ErgStats.prevTime:0  diff=0 if > 0.1 will update
+[2015-11-28 04:25:27.019000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:27.022000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:27.038000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:27.041000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:27.043000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:27.047000] DEBUG: ErgStats: updating from ErgStats.erg....
+[2015-11-28 04:25:27.142000] DEBUG: ErgStats: ErgStats.time:0  ErgStats.prevTime:0  diff=0 if > 0.1 will update
+[2015-11-28 04:25:27.146000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:27.149000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:27.165000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:27.168000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:27.171000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:27.175000] DEBUG: ErgStats: updating from ErgStats.erg....
+[2015-11-28 04:25:27.268000] DEBUG: ErgStats: ErgStats.time:0  ErgStats.prevTime:0  diff=0 if > 0.1 will update
+[2015-11-28 04:25:27.271000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:27.275000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:27.291000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:27.293000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:27.296000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:27.300000] DEBUG: ErgStats: updating from ErgStats.erg....
+[2015-11-28 04:25:27.392000] DEBUG: ErgStats: ErgStats.time:0  ErgStats.prevTime:0  diff=0 if > 0.1 will update
+[2015-11-28 04:25:27.395000] DEBUG: ErgStats: setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue
+[2015-11-28 04:25:27.399000] DEBUG: DynRow: about to playground.update(0)
+[2015-11-28 04:25:27.415000] DEBUG: DynRow: gameloop() isWorkoutActive=1
+[2015-11-28 04:25:27.417000] DEBUG: DynRow: gameloop about to call ErgStats.update
+[2015-11-28 04:25:27.421000] DEBUG: ErgStats: update() ErgStats.isConnected=True
+[2015-11-28 04:25:27.425000] DEBUG: ErgStats: updating from ErgStats.erg....
+

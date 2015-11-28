@@ -2,7 +2,7 @@
 import sqlite3
 import datetime
 
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
 
 class SQLiteStorage(object):
     '''
