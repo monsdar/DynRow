@@ -2,7 +2,7 @@
 import sqlite3
 import datetime
 
-from ErgStatsFactory import ErgStats
+from PyRow.ErgStats import ErgStats
 
 class SQLiteStorage(object):
     '''
@@ -28,7 +28,9 @@ class SQLiteStorage(object):
                                                             calhr real,
                                                             power int,
                                                             calories int,
-                                                            heartrate int);''')
+                                                            heartrate int,
+                                                            interval_count int,
+                                                            workout_state int);''')
 
     def __del__(self):
         self.conn.commit()
@@ -38,12 +40,12 @@ class SQLiteStorage(object):
     Stores the current ErgStats data
     '''
     def storeState(self, timestamp):
-        data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate)
-        self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
+        data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate, ErgStats.interval_count, ErgStats.workout_state)
+        self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
 
     def getDataTuple(self, timestamp):
         try:
-            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate FROM rowdata WHERE timestamp >= ? LIMIT 1;", (timestamp,))
+            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate, interval_count, workout_state FROM rowdata WHERE timestamp >= ? LIMIT 1;", (timestamp,))
             return self.cursor.fetchone()
         except sqlite3.OperationalError:
-            return (0.0, 0.0, 0, 0.0, 0.0, 0.0, 0, 0, 0)
+            return (0.0, 0.0, 0, 0.0, 0.0, 0.0, 0, 0, 0, 0, 0)

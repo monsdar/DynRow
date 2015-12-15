@@ -18,6 +18,22 @@ class ErgStats(object):
     calories = 0     # Calories burned away
     heartrate = 0    # Heartrate
     time = 0.0       # the time of the ergometer, this is important to use because it pauses if the user pauses etc
+    interval_count = 0 # 0-based interval count or 0 if not doing intervals
+    workout_state = 0  # workout state per Concept 2 API see below
+    workout_state_text = [ "Waiting to begin",
+                           "Workout row", 
+                           "Countdown pause",
+                           "Interval rest", 
+                           "Work time interval", 
+                           "Work distance interval", 
+                           "Rest interval end to work time interval begin", 
+                           "Rest interval end to work distance interval begin", 
+                           "Work time interval end to rest interval begin", 
+                           "Work distance interval end to rest interval begin",  
+                           "Workout end", 
+                           "Workout terminate", 
+                           "Workout logged", 
+                           "Workout rearm" ]
 
     # internal stuff (how to hide?)
     prevTime = 0.0   # needed to see if the time has been updated (else the player is pausing or something similar)
@@ -66,6 +82,9 @@ class ErgStats(object):
         ErgStats.prevTime = 0.0
         ErgStats.numQueries = 0
 
+        ErgStats.interval_count = 0
+        ErgStats.workout_state = 0
+
     @staticmethod
     def update():
         if ErgStats.isConnected:
@@ -80,6 +99,10 @@ class ErgStats(object):
                 ErgStats.calories = monitor['calories']
                 ErgStats.heartrate = monitor['heartrate']
                 ErgStats.time = monitor['time']
+
+                ErgStats.interval_count = monitor['intervalcount'] 
+                ErgStats.workout_state = monitor['workoutstate']
+
             except AttributeError:
                 # print "Error receiving monitor status"
                 pass
