@@ -59,9 +59,9 @@ def main():
     playground.setPlayerBoat(player)
 
     #init the AI boats
-    playground.addBoat(BoatBoomerang("Pacer", 130, 24, 50, 4))
-    playground.addBoat(BoatBoomerang("Other Pacer", 129, 25, 2))
-    playground.addBoat(BoatConstant("Steady", 129, 24))
+    playground.addBoat(BoatBoomerang("Pacer", 140, 25, 30, 4))
+    playground.addBoat(BoatBoomerang("Other Pacer", 140, 24, 15, 4))
+    playground.addBoat(BoatConstant("Steady", 136, 25))
 
     if not newestGhost == "":
         playground.addBoat(BoatGhost("Ghost", newestGhost))
