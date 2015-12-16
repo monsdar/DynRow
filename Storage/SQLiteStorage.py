@@ -43,9 +43,9 @@ class SQLiteStorage(object):
         data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate, ErgStats.interval_count, ErgStats.workout_state)
         self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
 
-    def getDataTuple(self, timestamp):
+    def getDataTuple(self, timestamp, interval=0):
         try:
-            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate, interval_count, workout_state FROM rowdata WHERE timestamp >= ? LIMIT 1;", (timestamp,))
+            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate, interval_count, workout_state FROM rowdata WHERE timestamp >= ? AND interval_count = ? LIMIT 1;", (timestamp,interval))
             return self.cursor.fetchone()
         except sqlite3.OperationalError:
             return (0.0, 0.0, 0, 0.0, 0.0, 0.0, 0, 0, 0, 0, 0)

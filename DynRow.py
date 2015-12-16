@@ -11,7 +11,7 @@ from Boats.BoatBoomerang import BoatBoomerang
 from Boats.BoatGhost import BoatGhost
 from Boats.BoatConstant import BoatConstant
 from Logic.Playground import Playground
-
+import managers
 
 from ErgStatsFactory import ErgStats
 
@@ -19,14 +19,8 @@ log = logbook.Logger("DynRow")
 
 DELTAT = 16  # run with ~60FPS
 
-#get newest workout file
-#do this before the Playground gets created (thus creating a new Ghostfile)
-ghostFiles = glob.glob('*.db')
-if len(ghostFiles) > 0:
-    newestGhost = max(ghostFiles, key=os.path.getctime)
-else:
-    newestGhost = ""
 
+manager = None
 playground = Playground()  # the playground is a class which holds all the information (all the boats etc)
 ui = PyGameUi() # the UI which will display the playground on a graphical interface
 
@@ -58,13 +52,13 @@ def main():
     player = BoatConcept2(dynrow_args.args.name)
     playground.setPlayerBoat(player)
 
-    #init the AI boats
-    playground.addBoat(BoatBoomerang("Pacer", 140, 25, 30, 4))
-    playground.addBoat(BoatBoomerang("Other Pacer", 140, 24, 15, 4))
-    playground.addBoat(BoatConstant("Steady", 136, 25))
+    
+    if dynrow_args.args.dointervals:
+        manager = managers.IntervalManager(playground.storage)
+    else:
+        manager = manager.StandardManager(playground.storage)
 
-    if not newestGhost == "":
-        playground.addBoat(BoatGhost("Ghost", newestGhost))
+    manager.initialize(playground)
 
     # Init the Concept2
     ErgStats.connectToErg()

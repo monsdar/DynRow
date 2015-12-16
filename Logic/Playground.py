@@ -6,10 +6,13 @@ class Playground():
         self.boats = []
         self.position = 0.0
         self.storage = SQLiteStorage() #needed to store the current workout to file (needed for ghosting)
-        
+
+    def removeNonPlayerBoats(self):
+        self.boats = []
+
     def getCurrentPosition(self):
         return self.position
-        
+    
     def addBoat(self, boat):
         self.boats.append(boat)
         
