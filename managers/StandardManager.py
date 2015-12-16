@@ -1,5 +1,12 @@
 import logbook
 
+import glob, os
+
+from Boats.BoatBoomerang import BoatBoomerang
+from Boats.BoatConstant import BoatConstant
+from Boats.BoatGhost import BoatGhost
+
+
 
 log = logbook.Logger("StandardManager")
 
@@ -25,3 +32,6 @@ class StandardManager(object):
             newestGhost = "" 
         if not newestGhost == "":
             playground.addBoat(BoatGhost("Ghost", newestGhost)) 
+
+    def update(self, ergstats):
+        pass

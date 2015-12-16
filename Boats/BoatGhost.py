@@ -15,7 +15,7 @@ class BoatGhost(Boat):
         pass
 
     def move(self, timeGone):
-        data = self.storage.getDataTuple(timeGone, interval)
+        data = self.storage.getDataTuple(timeGone, self.interval)
         if not data == None:
             self.distance = data[0]
             self.pace = data[2]

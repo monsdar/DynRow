@@ -6,9 +6,16 @@ class Playground():
         self.boats = []
         self.position = 0.0
         self.storage = SQLiteStorage() #needed to store the current workout to file (needed for ghosting)
+        self._pause_boats = False
 
     def removeNonPlayerBoats(self):
         self.boats = []
+
+    def pauseBoats(self):
+        self._pause_boats=True
+
+    def unPauseBoats(self):
+        self._pause_boats=False
 
     def getCurrentPosition(self):
         return self.position
@@ -31,12 +38,12 @@ class Playground():
         self.playerBoat.reset()
 
     def update(self, timeGone):
-        #move all the bots
-        for boat in self.boats:
-            boat.move(timeGone)
-
-        #move the player
-        self.playerBoat.move(timeGone)
+        if not self._pause_boats:
+            #move all the bots
+            for boat in self.boats:
+                boat.move(timeGone)
+            #move the player
+            self.playerBoat.move(timeGone)
 
         #store the current state into the storage
         self.storage.storeState(timeGone)

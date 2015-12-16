@@ -1,15 +1,10 @@
-
-import glob
-import os, sys
+import sys
 import dynrow_args
 
 import logbook
 
 from UI.PyGameUi import PyGameUi
 from Boats.BoatConcept2 import BoatConcept2
-from Boats.BoatBoomerang import BoatBoomerang
-from Boats.BoatGhost import BoatGhost
-from Boats.BoatConstant import BoatConstant
 from Logic.Playground import Playground
 import managers
 
@@ -38,6 +33,7 @@ def gameLoop():
         ErgStats.update()
 
     log.debug("about to playground.update(%s)"%ErgStats.time)
+    manager.update(ErgStats)
     playground.update(ErgStats.time)
     ui.update(playground)
 
@@ -56,7 +52,7 @@ def main():
     if dynrow_args.args.dointervals:
         manager = managers.IntervalManager(playground.storage)
     else:
-        manager = manager.StandardManager(playground.storage)
+        manager = managers.StandardManager(playground.storage)
 
     manager.initialize(playground)
 
