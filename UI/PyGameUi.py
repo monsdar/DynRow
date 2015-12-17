@@ -55,7 +55,7 @@ class PyGameUi():
 
         while not done:
             #let's lock to 60 FPS
-            clock.tick(60)
+            clock.tick(10)
 
             for event in pygame.event.get(): # User did something
                 if (event.type == pygame.QUIT) or (event.type is pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -82,12 +82,13 @@ class PyGameUi():
 
     def update(self, playground):
         #Get the current distance from the player boat
-        self.adjustDistance(playground.boats, ErgStats.distance)
+        self.adjustDistance(playground.boats, playground.playerBoat.distance) # use player boat distance to pause during rest perio
 
         #update the racing section
-        self.updateRaceBackground(ErgStats.distance)
+        #self.updateRaceBackground(ErgStats.distance) # this causes the user boat to 'move' even when playground is paused
+        self.updateRaceBackground(playground.playerBoat.distance) # needed in order to 'pause' the player boat during rest intervals
         self.updatePlayer()
-        self.updateBoats(playground.boats)
+        self.updateBoats(playground.boats, playground)
 
         #update the stat section
         self.monitor.updateStats(playground)
@@ -206,7 +207,7 @@ class PyGameUi():
         pygame.draw.polygon(self.screen, color, boatPolygon)
         pygame.draw.polygon(self.screen, Colors.BLACK, boatPolygon, 2)
 
-    def updateBoats(self, boats):
+    def updateBoats(self, boats, playground):
         #the following factors are used to calculate from a distance in meters into a distance on the
         #screen (1m in our simulation is not 1px on the screen, depends on the sceneRange we've got)
         heightFactor = self.racePanelHeight / self.sceneRange
@@ -219,7 +220,7 @@ class PyGameUi():
             currentLane = (index + 1) * self.laneHeight * heightFactor + self.monitorHeight
 
             #calc the horizontal position
-            relativeDistance = boat.distance-ErgStats.distance
+            relativeDistance = boat.distance-playground.playerBoat.distance
             boatPos = relativeDistance * widthFactor + self.width/2
 
             #print the boat

@@ -21,9 +21,10 @@ ui = PyGameUi() # the UI which will display the playground on a graphical interf
 
 
 def gameLoop():
+    log.debug(" ")
+    log.debug("gameloop start")
     #check if the workout is active
     isWorkoutActive = ErgStats.isWorkoutActive()
-    log.debug("gameloop() isWorkoutActive=%s"%isWorkoutActive)
     if not isWorkoutActive:
         ErgStats.resetStatistics()
         playground.reset()
@@ -32,8 +33,8 @@ def gameLoop():
         log.debug("gameloop about to call ErgStats.update")
         ErgStats.update()
 
-    log.debug("about to playground.update(%s)"%ErgStats.time)
     manager.update(ErgStats)
+    log.debug("about to playground.update(%s)"%ErgStats.time)
     playground.update(ErgStats.time)
     ui.update(playground)
 
@@ -41,9 +42,14 @@ def gameLoop():
     if not isWorkoutActive:
         ui.showMessage("Please start rowing...")
 
+    log.debug("gameloop end")
+
 
 
 def main():
+
+    global manager
+
     # init the player boat
     player = BoatConcept2(dynrow_args.args.name)
     playground.setPlayerBoat(player)
@@ -64,7 +70,8 @@ def main():
     ui.setCycleTime(DELTAT)
     ui.run()
 
-log_handler = logbook.StreamHandler(sys.stdout, level=dynrow_args.args.loglevel)
+#log_handler = logbook.StreamHandler(sys.stdout, level=dynrow_args.args.loglevel)
+log_handler = logbook.StreamHandler(open("dynrow.log", "w"), level=dynrow_args.args.loglevel)
 if __name__ == "__main__":
     with log_handler.applicationbound():
         main()

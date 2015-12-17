@@ -22,6 +22,7 @@ class ErgStats(object):
     calories = 0     # Calories burned away
     heartrate = 0    # Heartrate
     time = 0.0       # the time of the ergometer, this is important to use because it pauses if the user pauses etc
+    rest_time_remaining = 0 # rest time remaing in interval rest
     interval_count = 0 # 0-based interval count or 0 if not doing intervals
     workout_state = 0  # workout state per Concept 2 API see below
     workout_state_text = [ "Waiting to begin",
@@ -87,6 +88,7 @@ class ErgStats(object):
         ErgStats.prevTime = 0.0
         ErgStats.numQueries = 0
 
+        ErgStats.rest_time_remaining = 0
         ErgStats.interval_count = 0
         ErgStats.workout_state = 0
 
@@ -106,17 +108,18 @@ class ErgStats(object):
                 ErgStats.calories = ErgStats.erg.getAccumulatedCalories()
                 ErgStats.heartrate = ErgStats.erg.getHeartRate()
                 ErgStats.time = ErgStats.erg.getSecondsIntoThePiece()
-                ErgStats.interval_count = ErgStats.erg.getIntervalCount()
+                ErgStats.rest_time_remaining = ErgStats.erg.getRestTime()
+                ErgStats.interval_count = ErgStats.erg.getWorkoutIntervalCount()
                 ErgStats.workout_state = ErgStats.erg.getWorkoutState()
 
-                log.debug("ErgStats.erg.getSecondsIntoThePiece():%s"%ErgStats.erg.getSecondsIntoThePiece())
+                log.debug("ErgStats updated: interval_count:%s time:%s dist:%s rest_time:%s"%(ErgStats.interval_count, ErgStats.time, ErgStats.distance, ErgStats.rest_time_remaining))
+
             except AttributeError as e:
                 log.error("Error receiving monitor status: %s"%e)
 
             # calc the average pace
             # init the value at the first time we're in here
             if ErgStats.avgPace <= 0.000001:
-                log.debug("ErgStats avgPAce was 0 so setting it to current pace")
                 ErgStats.avgPace = ErgStats.pace
 
             # just update the average if the time has changed
@@ -127,7 +130,6 @@ class ErgStats(object):
                 log.debug("updated ErgStats.avgPace=%s ErgStats.numQueries=%s"%(ErgStats.avgPace, ErgStats.numQueries))
 
             # set the prevTime to be able to compare it next cycle
-            log.debug("setting ErgStats.prevTime to ErgStats.time *** maybe this is the issue")
             ErgStats.prevTime = ErgStats.time
 
 

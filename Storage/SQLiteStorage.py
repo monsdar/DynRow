@@ -1,8 +1,10 @@
-
+import logbook
 import sqlite3
 import datetime
 
-from PyRow.ErgStats import ErgStats
+log = logbook.Logger("SQLiteStorage")
+
+from ErgStatsFactory import ErgStats
 
 class SQLiteStorage(object):
     '''
@@ -42,6 +44,7 @@ class SQLiteStorage(object):
     def storeState(self, timestamp):
         data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate, ErgStats.interval_count, ErgStats.workout_state)
         self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
+        log.debug("storeState(%s)=%s"%(timestamp, data))
 
     def getDataTuple(self, timestamp, interval=0):
         try:
