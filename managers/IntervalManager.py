@@ -13,10 +13,6 @@ at (end of interval/n seconds before rest):
     do 'start rowing' thing
 
 
-TODO:
-    . add erg state update to im
-    . add im reset everuthong at end of interval
-
 (C) 2015 Kevin Dahlhausen
 
 """
@@ -49,8 +45,8 @@ class IntervalManager(object):
     def initialize(self, playground):
         log.debug("initializing interval manager")
         self.playground = playground # TODO: move to initializer
-        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 1", 211, 30))
-        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 2", 211, 20))
+        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 1", 127, 30))
+        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 2", 131, 20))
 
 
     def update(self, ErgStats):
@@ -61,7 +57,7 @@ class IntervalManager(object):
             # work segment just finished, pause the boats
             self.playground.pauseBoats()
 
-        elif ErgStats.workout_state==WS_REST_INTERVAL and ErgStats.rest_time_remaining==4 and not self.has_reset_for_next_interval:
+        elif ErgStats.workout_state==WS_REST_INTERVAL and ErgStats.rest_time_remaining<=15 and not self.has_reset_for_next_interval:
             # reset the field for the next interval but leave boats paused -- might need to update playground reset
             log.debug("********** resetting the field for the next interval but leaving boats paused")
             self.playground.reset()
