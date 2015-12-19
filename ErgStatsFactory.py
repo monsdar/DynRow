@@ -1,7 +1,11 @@
-import dynrow_args 
+import logbook
+log = logbook.Logger("ErgStatsFactory")
 
-# get erg data from either PyRow or pyerg
-if not dynrow_args.args.pyerg:
-    from PyRow.ErgStats import ErgStats
-else:
+try:
+    import pyerg
     from pyerg_adapter.ErgStats import ErgStats
+    log.debug("using pyerg")
+except:
+    from PyRow.ErgStats import ErgStats
+    log.debug("using pyrow")
+
