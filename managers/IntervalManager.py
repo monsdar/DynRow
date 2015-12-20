@@ -18,7 +18,10 @@ at (end of interval/n seconds before rest):
 """
 import logbook
 
-import Boats
+
+from Boats.BoatConstant import BoatConstant
+from Boats.BoatGhost import BoatGhost
+from Boats.BoatRollingAverage import BoatRollingAverage
 
 log = logbook.Logger("IntervalManager")
 
@@ -45,8 +48,10 @@ class IntervalManager(object):
     def initialize(self, playground):
         log.debug("initializing interval manager")
         self.playground = playground # TODO: move to initializer
-        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 1", 127, 30))
-        playground.addBoat(Boats.BoatConstant.BoatConstant("Steady 2", 131, 20))
+        playground.addBoat(BoatConstant("Steady 1", 127, 30))
+        playground.addBoat(BoatRollingAverage("Rolling 500", playground.getPlayerBoat(), 500))
+        playground.addBoat(BoatRollingAverage("Rolling 100", playground.getPlayerBoat(), 100))
+        playground.addBoat(BoatRollingAverage("Rolling 250", playground.getPlayerBoat(), 250))
 
 
     def update(self, ErgStats):
@@ -87,6 +92,6 @@ class IntervalManager(object):
         for previous_interval_number in range(0, interval_number):
             name = "Interval %d"%previous_interval_number
             log.debug("adding ghost  name=%s"%name)
-            boat = Boats.BoatGhost.BoatGhost(name, interval=previous_interval_number, storage=self.storage)
+            boat = BoatGhost(name, interval=previous_interval_number, storage=self.storage)
             self.playground.addBoat(boat)
 
