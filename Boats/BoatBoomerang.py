@@ -4,8 +4,9 @@ from ErgStatsFactory import ErgStats
 
 
 class BoatBoomerang(Boat):
-    def __init__(self, name, pace=150, spm=20, boomerDistance=50, boost=5):
-        Boat.__init__(self, name )
+
+    def __init__(self, name, pace=150, spm=20, boomerDistance=50, distance=0):
+        super(BoatBoomerang, self).__init__(name, distance)
         self.pace = pace            #time in seconds the boat needs to row 500m
         self.originalPace = pace    #do not forget the original pace
         self.spm = spm              #strokes per minute
@@ -20,6 +21,7 @@ class BoatBoomerang(Boat):
         self.currentTime = 0.0#needed if the boat changes its pace
 
     def reset(self):
+        super(BoatBoomerang, self).reset()
         self.pace = self.originalPace
         self.lastSecCheck = 0
         self.offsetTime = 0.0

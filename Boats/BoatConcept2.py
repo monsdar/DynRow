@@ -8,7 +8,7 @@ from ErgStatsFactory import ErgStats
 
 class BoatConcept2(Boat):
     def __init__(self, name, distance=0):
-        Boat.__init__(self, name, distance)
+        super(BoatConcept2, self).__init__(name, distance)
 
     def initialize(self):
         pass

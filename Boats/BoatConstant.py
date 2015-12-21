@@ -4,8 +4,9 @@ from Logic.Boat import Boat
 
 
 class BoatConstant(Boat):
-    def __init__(self, name, pace=150, spm=20):
-        super(BoatConstant, self).__init__(name)
+
+    def __init__(self, name, pace=150, spm=20, distance=0):
+        super(BoatConstant, self).__init__(name, distance)
         self.pace = pace            #time in seconds the boat needs to row 500m
         self.originalPace = pace    #do not forget the original pace
         self.spm = spm              #strokes per minute
@@ -16,6 +17,7 @@ class BoatConstant(Boat):
         self.currentTime = 0.0#needed if the boat changes its pace
 
     def reset(self):
+        super(BoatConstant, self).reset()
         self.pace = self.originalPace
         self.offsetTime = 0.0
         self.offsetDist = 0.0
