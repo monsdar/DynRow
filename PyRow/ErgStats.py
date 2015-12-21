@@ -82,6 +82,7 @@ class ErgStats(object):
         ErgStats.prevTime = 0.0
         ErgStats.numQueries = 0
 
+        ErgStats.rest_time_remaining = 0
         ErgStats.interval_count = 0
         ErgStats.workout_state = 0
 
@@ -100,6 +101,7 @@ class ErgStats(object):
                 ErgStats.heartrate = monitor['heartrate']
                 ErgStats.time = monitor['time']
 
+                ErgStats.rest_time_remaining = monitor['resttimeremaining']
                 ErgStats.interval_count = monitor['intervalcount'] 
                 ErgStats.workout_state = monitor['workoutstate']
 

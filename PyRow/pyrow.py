@@ -66,7 +66,9 @@ class pyrow:
 	def getMonitor(this, forceplot=False):
 		#Returns values from the monitor that relate to the current workout, optionally returns force plot data and stroke state
 		
-		command = ['CSAFE_PM_GET_WORKTIME', 'CSAFE_PM_GET_WORKDISTANCE', 'CSAFE_GETCADENCE_CMD', 'CSAFE_GETPOWER_CMD', 'CSAFE_GETCALORIES_CMD', 'CSAFE_GETHRCUR_CMD']
+		command = ['CSAFE_PM_GET_WORKTIME', 'CSAFE_PM_GET_WORKDISTANCE', 'CSAFE_GETCADENCE_CMD', 'CSAFE_GETPOWER_CMD', 'CSAFE_GETCALORIES_CMD', 'CSAFE_GETHRCUR_CMD',
+                'CSAFE_PM_GET_WORKOUTSTATE', 'CSAFE_PM_GET_INTERVALTYPE', 'CSAFE_PM_GET_WORKOUTINTERVALCOUNT', 'CSAFE_PM_GET_RESTTIME' ]
+        ]
 		if forceplot: command.extend(['CSAFE_PM_GET_FORCEPLOTDATA', 32, 'CSAFE_PM_GET_STROKESTATE'])
 		results = this.send(command)
 		
@@ -89,6 +91,13 @@ class pyrow:
 			monitor['strokestate'] = results['CSAFE_PM_GET_STROKESTATE'][0]
 			
 		monitor['status'] = results['CSAFE_GETSTATUS_CMD'][0] & 0xF
+
+
+        monitor['resttimeremaining'] = results['CSAFE_PM_GET_RESTTIME']
+		monitor['intervalcount'] = results['CSAFE_PM_GET_WORKOUTINTERVALCOUNT'][0]
+		monitor['workoutstate'] = results['CSAFE_PM_GET_WORKOUTSTATE'][0]
+
+
 
 		return monitor
 	
