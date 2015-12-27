@@ -31,7 +31,7 @@ e.g:
 `python DynRow.py --name Kippy`
 
 ## Intervals
-Interval mode is enabled by passing *--dointervals* on the command line.  In interval mode you row your first interval against a boat that moves at your recent average pace.  The boats pause during the rest interval and automatically reset just before the start of the next interval.  A boat is added for each previous interval.  That boat replays how your rowed for that interval.  You are then racing against yourself.
+Interval mode is enabled by passing *--dointervals* on the command line.  In interval mode you row your first interval against a computer-controlled boat.  They will automatically reset just before the start of the next work-interval, adding a boat for each previous interval.  Each boat replays how your rowed for one of the previous intervals.  You are then racing against yourself.
 
 e.g.:
 `python DynRow.py --dointervals`
