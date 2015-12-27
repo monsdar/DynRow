@@ -4,6 +4,7 @@ from Logic.Boat import Boat
 
 
 class BoatConstant(Boat):
+
     def __init__(self, name, pace=150, spm=20, distance=0):
         super(BoatConstant, self).__init__(name, distance)
         self.pace = pace            #time in seconds the boat needs to row 500m

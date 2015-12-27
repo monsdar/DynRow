@@ -1,8 +1,10 @@
-
+import logbook
 import sqlite3
 import datetime
 
-from PyRow.ErgStats import ErgStats
+log = logbook.Logger("SQLiteStorage")
+
+from ErgStatsFactory import ErgStats
 
 class SQLiteStorage(object):
     '''
@@ -28,7 +30,9 @@ class SQLiteStorage(object):
                                                             calhr real,
                                                             power int,
                                                             calories int,
-                                                            heartrate int);''')
+                                                            heartrate int,
+                                                            interval_count int,
+                                                            workout_state int);''')
 
     def __del__(self):
         self.conn.commit()
@@ -38,12 +42,13 @@ class SQLiteStorage(object):
     Stores the current ErgStats data
     '''
     def storeState(self, timestamp):
-        data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate)
-        self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
+        data = (timestamp, ErgStats.distance, ErgStats.spm, ErgStats.pace, ErgStats.avgPace, ErgStats.calhr, ErgStats.power, ErgStats.calories, ErgStats.heartrate, ErgStats.interval_count, ErgStats.workout_state)
+        self.cursor.execute("INSERT INTO rowdata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", data)
+        log.debug("storeState(%s)=%s"%(timestamp, data))
 
-    def getDataTuple(self, timestamp):
+    def getDataTuple(self, timestamp, interval=0):
         try:
-            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate FROM rowdata WHERE timestamp >= ? LIMIT 1;", (timestamp,))
+            self.cursor.execute("SELECT distance, spm, pace, avgpace, calhr, power, calories, heartrate, interval_count, workout_state FROM rowdata WHERE timestamp >= ? AND interval_count = ? LIMIT 1;", (timestamp,interval))
             return self.cursor.fetchone()
         except sqlite3.OperationalError:
-            return (0.0, 0.0, 0, 0.0, 0.0, 0.0, 0, 0, 0)
+            return (0.0, 0.0, 0, 0.0, 0.0, 0.0, 0, 0, 0, 0, 0)

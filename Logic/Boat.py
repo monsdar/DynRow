@@ -19,6 +19,7 @@ class Boat(object):
 
     def reset(self):
         self.distance = 0.0
+        self.pace = 0.0
 
     def move(self, timeGone):
         pass

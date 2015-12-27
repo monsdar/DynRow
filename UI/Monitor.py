@@ -4,7 +4,7 @@ import pygame
 import Colors
 import Fonts
 
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
 from Logic.Boat import Boat
 
 class Monitor:
@@ -32,7 +32,7 @@ class Monitor:
                 3 Testy
                 4 John    -10
     '''
-    def updateRanking(self, givenRanking):
+    def updateRanking(self, givenRanking, current_distance):
         currentHeight = 0 #this is the offset in height where the list starts
         for index, boat in enumerate(givenRanking):
             #display position and name
@@ -43,8 +43,8 @@ class Monitor:
             self.screen.blit(boatNameTxt, (boatNamePosX, boatNamePosY))
 
             #display delta to player distance
-            if not(boat[1] - ErgStats.distance == 0):
-                txt = "%+im" % (boat[1] - ErgStats.distance)
+            if not(boat[1] - current_distance == 0):
+                txt = "%+im" % (boat[1] - current_distance)
                 boatRelDistTxt = Fonts.font32.render(txt, True, Colors.BLACK)
                 boatRelDistPosX = self.width - 32 - boatRelDistTxt.get_size()[0]
                 boatRelDistPosY = currentHeight + 4
@@ -94,6 +94,8 @@ class Monitor:
     def updateStats(self, playground):
 
         self.drawBackground()
+
+        current_distance = playground.getPlayerBoat().distance
 
         #display the workout time
         #use the time given by ergometer, it pauses when the player pauses etc
@@ -164,7 +166,7 @@ class Monitor:
         self.screen.blit(avgPaceDescTxt, (avgPaceDescPosX, avgPaceDescPosY))
 
         #display the rowed distance
-        distTxt = Fonts.font72.render("%im" % ErgStats.distance, True, Colors.BLACK)
+        distTxt = Fonts.font72.render("%im" % current_distance, True, Colors.BLACK)
         distPosX = self.rightDividerX + (self.width-self.rightDividerX)/2 - (distTxt.get_size()[0] / 2.0)
         distPosY = self.rightHeightDivider + (self.statPanelHeight - self.rightHeightDivider)/2.0 - (distTxt.get_size()[1]/2.0)
         self.screen.blit(distTxt, (distPosX, distPosY))
@@ -176,14 +178,14 @@ class Monitor:
 
         #display the ranking, therefore get the actual boat-tuples needed
         orderedBoats = list(playground.boats)             #copy the list, this one will be sorted
-        playerBoat = Boat(playground.getPlayerBoat().name, ErgStats.distance) #create a lightweight player-clone to display in this list
+        playerBoat = Boat(playground.getPlayerBoat().name, current_distance) #create a lightweight player-clone to display in this list
         orderedBoats.append(playerBoat)
         orderedBoats.sort()                               #sort the boats to display them ordered by distance
 
         ranking = []
         for boat in orderedBoats:
             ranking.append( (boat.name, boat.distance) )
-        self.updateRanking(ranking)
+        self.updateRanking(ranking, current_distance)
 
 
 
