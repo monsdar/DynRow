@@ -88,6 +88,8 @@ class IntervalManager(object):
         self.playground.removeNonPlayerBoats()
         self.playground.reset()
 
+        self.playground.addBoat(BoatRollingAverage("Rolling 250", self.playground.getPlayerBoat(), 250))
+
         # interval_number is 1 during rest period of first interval
         for previous_interval_number in range(0, interval_number):
             name = "Interval %d"%previous_interval_number
