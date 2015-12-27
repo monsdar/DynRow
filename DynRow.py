@@ -1,33 +1,25 @@
-
-import glob
-import os
 import dynrow_args
+import logbook
 
 from UI.PyGameUi import PyGameUi
 from Boats.BoatConcept2 import BoatConcept2
-from Boats.BoatRollingAverage import BoatRollingAverage
-from Boats.BoatBoomerang import BoatBoomerang
-from Boats.BoatGhost import BoatGhost
 from Logic.Playground import Playground
-
+import managers
 from ErgStatsFactory import ErgStats
 
+log = logbook.Logger("DynRow")
 
 DELTAT = 16  # run with ~60FPS
 
-#get newest workout file
-#do this before the Playground gets created (thus creating a new Ghostfile)
-ghostFiles = glob.glob('*.db')
-if len(ghostFiles) > 0:
-    newestGhost = max(ghostFiles, key=os.path.getctime)
-else:
-    newestGhost = ""
 
+manager = None
 playground = Playground()  # the playground is a class which holds all the information (all the boats etc)
 ui = PyGameUi() # the UI which will display the playground on a graphical interface
 
 
 def gameLoop():
+    log.debug(" ")
+    log.debug("gameloop start")
     #check if the workout is active
     isWorkoutActive = ErgStats.isWorkoutActive()
     if not isWorkoutActive:
@@ -35,8 +27,11 @@ def gameLoop():
         playground.reset()
     else:
         #update the ergometer data
+        log.debug("gameloop about to call ErgStats.update")
         ErgStats.update()
 
+    manager.update(ErgStats)
+    log.debug("about to playground.update(%s)"%ErgStats.time)
     playground.update(ErgStats.time)
     ui.update(playground)
 
@@ -44,20 +39,25 @@ def gameLoop():
     if not isWorkoutActive:
         ui.showMessage("Please start rowing...")
 
+    log.debug("gameloop end")
+
 
 
 def main():
+
+    global manager
+
     # init the player boat
     player = BoatConcept2(dynrow_args.args.name)
     playground.setPlayerBoat(player)
 
-    #init the AI boats
-    playground.addBoat(BoatBoomerang("Armin", 130, 20, 20))
-    playground.addBoat(BoatBoomerang("Bahne", 135, 22, 20))
-    playground.addBoat(BoatRollingAverage("Emil", playground.getPlayerBoat())) 
+    
+    if dynrow_args.args.dointervals:
+        manager = managers.IntervalManager(playground.storage)
+    else:
+        manager = managers.StandardManager(playground.storage)
 
-    if not newestGhost == "":
-        playground.addBoat(BoatGhost("Ghost", newestGhost))
+    manager.initialize(playground)
 
     # Init the Concept2
     ErgStats.connectToErg()
@@ -67,6 +67,9 @@ def main():
     ui.setCycleTime(DELTAT)
     ui.run()
 
+#log_handler = logbook.StreamHandler(sys.stdout, level=dynrow_args.args.loglevel)
+log_handler = logbook.StreamHandler(open("dynrow.log", "w"), level=dynrow_args.args.loglevel)
 if __name__ == "__main__":
-    main()
+    with log_handler.applicationbound():
+        main()
 

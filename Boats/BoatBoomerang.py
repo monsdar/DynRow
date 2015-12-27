@@ -1,8 +1,10 @@
 import math
 from Logic.Boat import Boat
-from PyRow.ErgStats import ErgStats
+from ErgStatsFactory import ErgStats
+
 
 class BoatBoomerang(Boat):
+
     def __init__(self, name, pace=150, spm=20, boomerDistance=50, distance=0):
         super(BoatBoomerang, self).__init__(name, distance)
         self.pace = pace            #time in seconds the boat needs to row 500m
@@ -11,7 +13,7 @@ class BoatBoomerang(Boat):
         self.amplitude = 0.1       #amplitude with which the boats are rowing
 
         self.boomerDistance = boomerDistance #the distance to the player at which the boomerang activates
-        self.boost = 5.0 #the speedboost which the boat will get when out of boomerDistance
+        self.boost = boost #the speedboost which the boat will get when out of boomerDistance
         self.lastSecCheck = 0 #the last second where we checked the speed
 
         self.offsetTime = 0.0 #needed if the boat changes its pace
