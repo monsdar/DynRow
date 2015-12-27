@@ -21,15 +21,30 @@ The software uses a slightly modified version of  [PyRow](http://www.newhavenrow
 
 The modifications of PyRow are made to be able to work with my PM5 monitor. There's also some additional exception handling added. I haven't made much effort to keep it portable to PM3/4 monitors, it's currently just set up to get it up and running on my system.
 
-You can set the player boat's name at the command line like this:
 
-python DynRow.py  --name <player name>
+#Command-Line Options
 
-e.g:
+## Player Name
+You can set the player boat's name at the command line like this: python DynRow.py  --name <player name>
 
-python DynRow.py --name Henry
+e.g: 
+`python DynRow.py --name Kippy
+
+## Intervals
+Interval mode is enabled by passing *--dointervals* on the command line.  In interval mode you row your first interval against a boat that moves at your recent average pace.  The boats pause during the rest interval and automatically reset just before the start of the next interval.  A boat is added for each previous interval.  That boat replays how your rowed for that interval.  You are then racing against yourself.
+
+e.g.:
+`python DynRow.py --dointervals
+
+
+## Application Logging
+The log-level for application debugging is set via *--loglevel DEBUG|INFO|WARNING|ERROR.
+
+e.g.:
+`python DynRow.py --loglevel DEBUG
+
 
 
 #Running tests
-pip install nose
-nosetests
+`pip install nose
+`nosetests
