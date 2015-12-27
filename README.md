@@ -34,6 +34,7 @@ e.g:
 Interval mode is enabled by passing *--dointervals* on the command line.  In interval mode you row your first interval against a boat that moves at your recent average pace.  The boats pause during the rest interval and automatically reset just before the start of the next interval.  A boat is added for each previous interval.  That boat replays how your rowed for that interval.  You are then racing against yourself.
 
 e.g.:
+
 `python DynRow.py --dointervals
 
 
@@ -41,10 +42,12 @@ e.g.:
 The log-level for application debugging is set via *--loglevel DEBUG|INFO|WARNING|ERROR.
 
 e.g.:
+
 `python DynRow.py --loglevel DEBUG
 
 
 
 #Running tests
 `pip install nose
+
 `nosetests
