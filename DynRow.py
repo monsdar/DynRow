@@ -1,17 +1,10 @@
-import sys
 import dynrow_args
-
 import logbook
 
 from UI.PyGameUi import PyGameUi
 from Boats.BoatConcept2 import BoatConcept2
-from Boats.BoatRollingAverage import BoatRollingAverage
-from Boats.BoatBoomerang import BoatBoomerang
-from Boats.BoatGhost import BoatGhost
-
 from Logic.Playground import Playground
 import managers
-
 from ErgStatsFactory import ErgStats
 
 log = logbook.Logger("DynRow")
